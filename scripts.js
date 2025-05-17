@@ -77,6 +77,84 @@ function stopAutoplay() {
         }
     });
 });
+   // Menu Hamburguer Interativo
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navMenu = document.getElementById('nav-menu');
+        const menuBackdrop = document.getElementById('menu-backdrop');
+        const navItems = document.querySelectorAll('#nav-menu li');
+
+        mobileMenu.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            menuBackdrop.classList.toggle('active');
+            mobileMenu.classList.toggle('active');
+            
+            // Animação de rotação do ícone
+            if (navMenu.classList.contains('active')) {
+                mobileMenu.style.transform = 'rotate(90deg)';
+            } else {
+                mobileMenu.style.transform = 'rotate(0deg)';
+            }
+        });
+
+        // Fechar menu ao clicar no backdrop ou nos itens
+        menuBackdrop.addEventListener('click', () => {
+            navMenu.classList.remove('active');
+            menuBackdrop.classList.remove('active');
+            mobileMenu.classList.remove('active');
+            mobileMenu.style.transform = 'rotate(0deg)';
+        });
+
+        navItems.forEach(item => {
+            item.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                menuBackdrop.classList.remove('active');
+                mobileMenu.classList.remove('active');
+                mobileMenu.style.transform = 'rotate(0deg)';
+            });
+        });
+
+        // Seu código existente para o carrossel...
+        const items = document.querySelectorAll('.item');
+        const dots = document.querySelectorAll('.dot');
+        const numbers = document.querySelector('.numbers');
+        const prevBtn = document.getElementById('prev');
+        const nextBtn = document.getElementById('next');
+        let currentIndex = 0;
+
+        function updateSlider(index) {
+            items.forEach(item => item.classList.remove('active'));
+            dots.forEach(dot => dot.classList.remove('active'));
+            
+            items[index].classList.add('active');
+            dots[index].classList.add('active');
+            numbers.textContent = `0${index + 1}`;
+            currentIndex = index;
+        }
+
+        nextBtn.addEventListener('click', () => {
+            let nextIndex = currentIndex + 1;
+            if (nextIndex >= items.length) nextIndex = 0;
+            updateSlider(nextIndex);
+        });
+
+        prevBtn.addEventListener('click', () => {
+            let prevIndex = currentIndex - 1;
+            if (prevIndex < 0) prevIndex = items.length - 1;
+            updateSlider(prevIndex);
+        });
+
+        dots.forEach((dot, index) => {
+            dot.addEventListener('click', () => {
+                updateSlider(index);
+            });
+        });
+
+        // Atualização automática do carrossel (opcional)
+        setInterval(() => {
+            let nextIndex = currentIndex + 1;
+            if (nextIndex >= items.length) nextIndex = 0;
+            updateSlider(nextIndex);
+        }, 5000);
 
 
  
